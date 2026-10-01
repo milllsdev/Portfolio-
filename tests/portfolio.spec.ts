@@ -18,6 +18,19 @@ for (const width of [375, 390, 768, 1280, 1920]) {
       expect(await page.locator(href!).count()).toBe(1);
     }
     await expect(page.getByText(/lorem ipsum/i)).toHaveCount(0);
+    const portrait = page.getByRole("img", { name: "Michel Ayikoe Atayi", exact: true });
+    await portrait.scrollIntoViewIfNeeded();
+    await expect(portrait).toBeVisible();
+    await expect(portrait).toHaveAttribute("src", "/IMG_2300.jpeg");
+    await expect.poll(() => portrait.evaluate(image => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0)).toBe(true);
+    expect(await portrait.evaluate(image => getComputedStyle(image).filter)).toBe("none");
+    const section = page.locator("#experience");
+    for (const company of ["Ecobank Ghana", "Blueticks Technology"]) {
+      const row = section.locator("article").filter({ has: page.getByRole("heading", { name: company, exact: true }) });
+      await expect(row.getByText("Remote", { exact: true })).toBeVisible();
+    }
+    await expect(section).not.toContainText("Accra, Ghana");
+    await expect(page.locator("article").filter({ has: page.getByRole("heading", { name: "DreamTrip AI", exact: true }) })).toContainText("personalized day-by-day itinerary");
     expect(errors).toEqual([]);
     await page.screenshot({ path: `test-results/portfolio-${width}.png`, fullPage: true });
   });
@@ -46,4 +59,10 @@ test("project links and accessible navigation", async ({ page, request }) => {
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute("content", "Michel Ayikoe Atayi — Software Engineer");
   expect((await request.get("/icon.svg")).status()).toBe(200);
   expect((await request.get("/opengraph-image")).status()).toBe(200);
+});
+
+test("inspect DreamTrip live landing page", async ({ page }) => {
+  const response = await page.goto("https://dreamtrip-ai-xi.vercel.app/", { waitUntil: "domcontentloaded" });
+  expect(response?.ok()).toBeTruthy();
+  console.log("DreamTrip live application:", (await page.locator("body").innerText()).slice(0, 9000));
 });

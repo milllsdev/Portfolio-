@@ -40,13 +40,13 @@ The GitHub Actions workflow installs dependencies, lints, checks TypeScript, bui
 
 Open Graph image and favicon are generated locally by the app. Once a public domain is chosen, you can add a `metadataBase` URL to `app/layout.tsx` and a canonical URL. Do not set a fictitious domain.
 
-## Add your portrait
+## Personal portrait
 
-Add your real photo at **`public/portrait.jpg`**, with the exact lowercase filename, then commit and redeploy. A portrait around 720 × 900 pixels (4:5 ratio) works well; the image is cropped to that ratio. `components/portrait.tsx` detects the file during rendering/build and uses Next.js Image when it exists. With no photo, an intentionally labeled monogram composition appears. No fake personal image is used.
+The original portrait is **`public/IMG_2300.jpeg`**, rendered by `components/portrait.tsx` in the existing rectangular photo area. It is served directly without image optimization, filters, or file modifications. Existing responsive CSS uses `object-fit: cover` in a 4:5 frame. To replace the photo later, update that same original file and redeploy.
 
 ## Content accuracy and accessibility
 
-Rendo and the Fintech Dashboard frontend have no live links. DreamTrip AI uses only the supplied name and live URL, with no unverified technology, feature, or metric claims. Project artwork is abstract, original CSS art, not screenshots of the applications. GitHub repositories may require permission, particularly the private Rendo repository.
+Rendo and the Fintech Dashboard frontend have no live links. DreamTrip AI’s description and implementation details are verified against the source in `milllsdev/dreamtrip-ai`: its generation API, trip interface, and package manifest. No user counts or performance metrics are claimed. Project artwork is abstract, original CSS art, not screenshots of the applications. GitHub repositories may require permission, particularly the private Rendo repository.
 
 Semantic headings and landmarks, a skip link, visible focus states, reduced-motion support, and readable layouts are included. Reveal effects progressively enhance server-rendered content; content remains visible without JavaScript.
 
