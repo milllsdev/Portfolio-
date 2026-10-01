@@ -18,7 +18,8 @@ for (const width of [375, 390, 768, 1280, 1920]) {
       expect(await page.locator(href!).count()).toBe(1);
     }
     await expect(page.getByText(/lorem ipsum/i)).toHaveCount(0);
-    const portrait = page.getByRole("img", { name: "Michel Ayikoe Atayi", exact: true });
+    await expect(page.getByRole("img", { name: "Michel Ayikoe Atayi", exact: true })).toHaveCount(2);
+    const portrait = page.locator("#about").getByRole("img", { name: "Michel Ayikoe Atayi", exact: true });
     await portrait.scrollIntoViewIfNeeded();
     await expect(portrait).toBeVisible();
     await expect(portrait).toHaveAttribute("src", "/IMG_2300.jpeg");
@@ -65,4 +66,18 @@ test("inspect DreamTrip live landing page", async ({ page }) => {
   const response = await page.goto("https://dreamtrip-ai-xi.vercel.app/", { waitUntil: "domcontentloaded" });
   expect(response?.ok()).toBeTruthy();
   console.log("DreamTrip live application:", (await page.locator("body").innerText()).slice(0, 9000));
+});
+
+test("guide follows sections and respects reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const guide = page.getByRole("complementary", { name: "Page guide" });
+  await expect(guide.getByRole("link")).toHaveAttribute("href", "#work");
+  expect(await guide.locator("svg").evaluate(element => getComputedStyle(element).animationName)).toBe("none");
+  await guide.getByRole("button", { name: "Pause motion" }).click();
+  await expect(guide.getByRole("button", { name: "Resume motion" })).toHaveAttribute("aria-pressed", "true");
+  await page.locator("#about").scrollIntoViewIfNeeded();
+  await expect(guide.getByRole("link")).toHaveAttribute("href", "#skills");
+  await guide.getByRole("link").click();
+  await expect(page).toHaveURL(/#skills$/);
 });

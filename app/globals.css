@@ -5,3 +5,39 @@
 @media(max-width:1000px){.shell{width:calc(100% - 64px)}.about-grid{gap:48px}.project-details,.experience-row{gap:36px}.section-heading>p{max-width:220px}.skills-grid{gap:32px}.hero h1{font-size:11vw}}
 @media(max-width:760px){.shell{width:calc(100% - 40px)}.site-header{height:80px}nav{gap:22px;font-size:12px}.wordmark{font-size:26px}.hero{padding-top:32px}.hero-location{display:none}.hero h1{font-size:clamp(52px,12.1vw,90px);margin-block:48px 32px}.hero-bottom{align-items:flex-start;flex-direction:column;gap:22px}.hero-bottom p{font-size:13px}.hero-index{margin-top:40px;font-size:9px}.work{padding-top:64px}.section-label{margin-bottom:28px;gap:20px;font-size:10px}.section-heading{display:block;margin-bottom:36px}.section-heading>p{margin-top:22px;max-width:none;font-size:13px}.project{margin-bottom:64px}.project-art{height:340px;padding:22px}.art-top>span:first-child{font-size:18px}.art-top>span:last-child{font-size:8px;max-width:70px;text-align:right}.art-bottom>span:first-child{font-size:29px}.taskora .art-shape span{width:40%}.dreamtrip .art-shape span{width:65%;height:32%}.dreamtrip .art-shape span:nth-child(2){width:45%;height:22%}.dreamtrip .art-shape span:nth-child(3){width:25%;height:12%}.rendo .art-shape span{width:16%;height:31%}.rendo .art-shape span:nth-child(2){height:40%}.fintech .art-shape{padding-bottom:30%}.fintech .art-shape span{width:13%}.project-details{grid-template-columns:1fr;gap:24px;padding-top:24px}.project-description{font-size:16px}.project-links{margin-top:10px}.project-copy>ul:not(.technologies),.experience-row>ul{font-size:13px}.section-space{padding-block:64px}.experience-row{grid-template-columns:1fr;gap:24px;padding-block:28px}.about-grid{grid-template-columns:1fr;gap:40px}.portrait{max-width:420px}.portrait-monogram{font-size:210px}.skills-grid{grid-template-columns:1fr;gap:28px;margin-top:36px}.skills-grid ul{display:flex;flex-wrap:wrap;gap:8px 24px}.skills-grid li{font-size:20px;line-height:1.6}.skills-grid h3{margin-bottom:14px}.activities{padding-top:0}.activity-list article{grid-template-columns:1fr;gap:8px;padding-block:24px}.activity-date{text-align:left;font-size:11px!important}.activity-list h3{font-size:19px}.contact{padding-top:64px}.contact h2{font-size:clamp(44px,10vw,76px)}.contact p{font-size:13px}.contact-socials{margin-bottom:56px}.contact footer{font-size:10px}.about-copy h2{font-size:40px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}.reveal[data-pending]{opacity:1;transform:none}}
+
+/* Hero portrait keeps the original image and editorial proportions. */
+.hero-introduction{display:grid;grid-template-columns:minmax(0,1fr) minmax(200px,27%);gap:40px;align-items:center;padding-block:60px 44px}
+.hero-introduction h1{font-size:clamp(58px,7.5vw,116px);margin:0}
+.hero-portrait{align-self:end;max-width:340px;justify-self:end;width:100%;animation:portrait-arrive .9s ease both}
+.hero-portrait .portrait{max-width:none}
+.hero-portrait figcaption{font-size:9px}
+@keyframes portrait-arrive{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@media(min-width:1600px){.hero-introduction h1{font-size:120px}}
+@media(max-width:1000px){.hero-introduction{gap:24px}.hero-introduction h1{font-size:7.7vw}}
+@media(max-width:760px){.hero-introduction{grid-template-columns:1fr;padding-block:40px 30px;gap:28px}.hero-introduction h1{font-size:clamp(52px,12.1vw,90px)}.hero-portrait{width:min(66%,300px);justify-self:end}.hero-portrait .portrait-image{aspect-ratio:4/5}}
+
+/* A small original wayfinding character; never covers page content. */
+.guide-placement{position:fixed;right:4px;bottom:28px;width:48px;z-index:5}
+.section-guide{color:var(--ink);text-align:center}
+.guide-link{display:flex;align-items:center;flex-direction:column;gap:8px}
+.guide-character{width:42px;height:48px;overflow:visible;animation:guide-hop 2.8s ease-in-out 4}
+.guide-hand{transform-origin:56px 39px;animation:guide-wave 2.8s ease-in-out 4}
+.guide-caption{writing-mode:vertical-rl;display:flex;align-items:center;gap:8px;font-size:10px;background:var(--paper);padding:10px 4px}
+.guide-caption .eyebrow{font-size:8px;color:var(--muted)}
+.guide-pause{font:inherit;font-size:8px;line-height:1.4;border:0;border-bottom:1px solid var(--line);background:var(--paper);padding:6px 2px;margin-top:10px;cursor:pointer}
+.guide-pause:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.section-guide[data-paused] .guide-character,.section-guide[data-paused] .guide-hand{animation-play-state:paused}
+.guide-link:hover .guide-character{transform:translateY(-3px)}
+@keyframes guide-hop{0%,65%,100%{translate:0 0}75%{translate:0 -6px}85%{translate:0 0}92%{translate:0 -3px}}
+@keyframes guide-wave{0%,65%,100%{rotate:0deg}75%,90%{rotate:-22deg}82%{rotate:5deg}}
+/* Project illustrations gain slow movement when invited by hover or focus. */
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+.project:hover .art-shape span,.project:focus-within .art-shape span{animation:project-drift 4s ease-in-out infinite}
+.project .art-shape span:nth-child(2){animation-delay:-1.3s}
+.project .art-shape span:nth-child(3){animation-delay:-2.6s}
+}
+@keyframes project-drift{0%,100%{translate:0 0}50%{translate:0 -9px}}
+@media(max-width:1000px){.guide-placement{right:0;width:28px}.guide-character{width:24px;height:28px}.guide-caption{font-size:9px;padding:6px 2px}.guide-pause{font-size:7px}}
+@media(max-width:760px){.guide-placement{position:static;width:calc(100% - 40px);margin:24px auto}.section-guide{text-align:left;display:flex;justify-content:space-between;align-items:center;gap:16px}.guide-link{flex-direction:row}.guide-character{width:42px;height:48px}.guide-caption{writing-mode:horizontal-tb;display:flex;flex-direction:column;align-items:flex-start;font-size:12px;gap:2px}.guide-pause{font-size:10px;margin:0}}
+@media print{.guide-placement{display:none}}
